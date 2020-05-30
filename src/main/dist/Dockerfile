@@ -32,7 +32,7 @@ RUN mkdir /home/alfio/app
 WORKDIR /home/alfio/app
 
 RUN mkdir logs
-COPY --chown=alfio WEB-INF WEB-INF
+#COPY --chown=alfio WEB-INF WEB-INF
 COPY --chown=alfio resources resources
 
 ENV ALFIO_LOG_STDOUT_ONLY=true

@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "alfio.override.system",
+      "type": "alfio.manager.system.ExternalConfiguration",
+      "sourceType": "alfio.manager.system.ExternalConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "alfio.override.system.extensions",
+      "type": "java.util.List<alfio.manager.system.ExternalConfiguration$ExtensionOverride>",
+      "sourceType": "alfio.manager.system.ExternalConfiguration"
+    },
+    {
+      "name": "alfio.override.system.settings",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "alfio.manager.system.ExternalConfiguration"
+    }
+  ],
+  "hints": []
+}

@@ -30,7 +30,7 @@ USER 1001
 # Define working directory.
 RUN mkdir /home/alfio/app
 WORKDIR /home/alfio/app
-
+RUN ls
 RUN mkdir logs
 COPY --chown=alfio WEB-INF WEB-INF
 COPY --chown=alfio resources resources

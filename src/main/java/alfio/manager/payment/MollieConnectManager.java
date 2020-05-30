@@ -99,7 +99,6 @@ public class MollieConnectManager implements OAuthPaymentProviderConnector {
     }
 
     private static class MollieConnectApi extends DefaultApi20 {
-
         @Override
         public String getAccessTokenEndpoint() {
             return "https://api.mollie.com/oauth2/tokens";

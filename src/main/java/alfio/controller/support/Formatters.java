@@ -19,8 +19,10 @@ package alfio.controller.support;
 import alfio.model.ContentLanguage;
 import alfio.model.Event;
 import alfio.util.MustacheCustomTag;
+import com.google.gson.Gson;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.context.MessageSource;
 
 import java.time.ZonedDateTime;
@@ -55,6 +57,7 @@ public class Formatters {
         String pattern = null;
         try {
             pattern = messageSource.getMessage(code, null, cl.getLocale());
+            Gson gson = new Gson();
             storeFunction.accept(cl.getLanguage(), DateTimeFormatter.ofPattern(pattern, cl.getLocale()).format(date));
         } catch (RuntimeException e) {
             String message = "cannot parse pattern "+code+" ("+pattern+") for language "+ cl.getLanguage();

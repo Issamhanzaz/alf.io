@@ -17,6 +17,7 @@
 package alfio.manager;
 
 import alfio.config.Initializer;
+import alfio.manager.payment.MultisafepayManager;
 import alfio.manager.support.CategoryEvaluator;
 import alfio.manager.system.ConfigurationLevel;
 import alfio.manager.system.ConfigurationManager;
@@ -42,6 +43,7 @@ import alfio.repository.user.OrganizationRepository;
 import alfio.util.Json;
 import alfio.util.MonetaryUtil;
 import ch.digitalfondue.npjt.AffectedRowCountAndKey;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.CollectionUtils;
@@ -947,7 +949,7 @@ public class EventManager {
     }
 
     private Stream<Event> getActiveEventsStream() {
-        return eventRepository.findAll().stream()
+         return eventRepository.findAll().stream()
             .filter(e -> e.getEnd().truncatedTo(ChronoUnit.DAYS).plusDays(1).isAfter(ZonedDateTime.now(e.getZoneId()).truncatedTo(ChronoUnit.DAYS)));
     }
 

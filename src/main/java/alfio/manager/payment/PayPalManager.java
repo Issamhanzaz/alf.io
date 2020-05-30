@@ -327,6 +327,7 @@ public class PayPalManager implements PaymentProvider, RefundRequest, PaymentInf
 
     @Override
     public boolean isActive(PaymentContext paymentContext) {
+        System.out.println("CAME INSIDE PAYPAL");
         var paypalConf = configurationManager.getFor(Set.of(PAYPAL_ENABLED, ConfigurationKeys.PAYPAL_CLIENT_ID, ConfigurationKeys.PAYPAL_CLIENT_SECRET),
             paymentContext.getConfigurationLevel());
         return paypalConf.get(PAYPAL_ENABLED).getValueAsBooleanOrDefault(false)

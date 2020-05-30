@@ -277,7 +277,6 @@ public class ExtensionManager {
             "jdbcTemplate", jdbcTemplate,
             "bindingResult", bindingResult
         );
-
         syncCall(ExtensionEvent.RESERVATION_VALIDATION, event, payload, Void.class);
     }
 

@@ -17,6 +17,9 @@
 package alfio.controller.api.v2.user;
 
 import alfio.controller.api.support.TicketHelper;
+import alfio.controller.api.v2.MultiSafepay.classes.Order;
+import alfio.controller.api.v2.MultiSafepay.classes.PaymentOptions;
+import alfio.controller.api.v2.MultiSafepay.client.MultiSafepayClient;
 import alfio.controller.api.v2.model.PaymentProxyWithParameters;
 import alfio.controller.api.v2.model.ReservationInfo;
 import alfio.controller.api.v2.model.ReservationInfo.TicketsByTicketCategory;
@@ -40,10 +43,13 @@ import alfio.model.system.ConfigurationKeys;
 import alfio.model.transaction.*;
 import alfio.repository.*;
 import alfio.util.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONObject;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -212,7 +218,6 @@ public class ReservationApiV2Controller {
     @GetMapping("/event/{eventName}/reservation/{reservationId}/status")
     public ResponseEntity<ReservationStatusInfo> getReservationStatus(@PathVariable("eventName") String eventName,
                                                                       @PathVariable("reservationId") String reservationId) {
-
         Optional<ReservationStatusInfo> res = Optional.empty();
         if (eventRepository.existsByShortName(eventName)) {
             res = ticketReservationRepository.findOptionalStatusAndValidationById(reservationId)
@@ -291,6 +296,7 @@ public class ReservationApiV2Controller {
                 paymentToken = paymentManager.buildPaymentToken(paymentForm.getGatewayToken(), paymentForm.getPaymentProxy(),
                     new PaymentContext(event, reservationId));
             }
+
             PaymentSpecification spec = new PaymentSpecification(reservationId, paymentToken, reservationCost.getPriceWithVAT(),
                 event, ticketReservation.getEmail(), customerName, ticketReservation.getBillingAddress(), ticketReservation.getCustomerReference(),
                 locale, ticketReservation.isInvoiceRequested(), !ticketReservation.isDirectAssignmentRequested(),
@@ -311,7 +317,6 @@ public class ReservationApiV2Controller {
                 bindingResult.reject(ErrorsCode.STEP_2_PAYMENT_PROCESSING_ERROR, new Object[]{messageSourceManager.getMessageSourceForEvent(event).getMessage(message, locale)}, null);
                 return buildReservationPaymentStatus(bindingResult);
             }
-
 
             return buildReservationPaymentStatus(bindingResult);
 

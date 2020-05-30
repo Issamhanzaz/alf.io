@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "multisafepay-apikey",
+            "type": "java.lang.String",
+            "description": "api-key for multisafepay"
+        }
+  ]
+}

@@ -16,8 +16,6 @@
  */
 package alfio.manager;
 
-import alfio.manager.payment.MollieWebhookPaymentManager;
-import alfio.manager.payment.MultisafepayManager;
 import alfio.manager.support.PaymentResult;
 import alfio.manager.system.ConfigurationLevel;
 import alfio.manager.system.ConfigurationManager;
@@ -58,10 +56,6 @@ public class PaymentManager {
     private final List<PaymentProvider> paymentProviders; // injected by Spring
 
     public Optional<PaymentProvider> lookupProviderByTransactionAndCapabilities(Transaction transaction, List<Class<? extends Capability>> capabilities) {
-        System.out.println(paymentProviders.stream()
-            .filter(filterByCapabilities(capabilities))
-            .filter(paymentProvider -> paymentProvider.accept(transaction))
-            .findFirst());
         return paymentProviders.stream()
             .filter(filterByCapabilities(capabilities))
             .filter(paymentProvider -> paymentProvider.accept(transaction))

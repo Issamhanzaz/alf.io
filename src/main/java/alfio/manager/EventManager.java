@@ -17,7 +17,6 @@
 package alfio.manager;
 
 import alfio.config.Initializer;
-import alfio.manager.payment.MultisafepayManager;
 import alfio.manager.support.CategoryEvaluator;
 import alfio.manager.system.ConfigurationLevel;
 import alfio.manager.system.ConfigurationManager;
@@ -43,7 +42,6 @@ import alfio.repository.user.OrganizationRepository;
 import alfio.util.Json;
 import alfio.util.MonetaryUtil;
 import ch.digitalfondue.npjt.AffectedRowCountAndKey;
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.collections4.CollectionUtils;
@@ -182,7 +180,12 @@ public class EventManager {
         return eventRepository.existsById(eventId);
     }
 
-    public void createEvent(EventModification em) {
+    public void createEvent(EventModification em, String username) {
+        var organization = organizationRepository.findAllForUser(username)
+            .stream()
+            .filter(org -> org.getId() == em.getOrganizationId())
+            .findFirst()
+            .orElseThrow();
         int eventId = insertEvent(em);
         Event event = eventRepository.findById(eventId);
         createOrUpdateEventDescription(eventId, em);
@@ -191,7 +194,7 @@ public class EventManager {
         createCategoriesForEvent(em, event);
         createAllTicketsForEvent(event, em);
         extensionManager.handleEventCreation(event);
-        var eventMetadata = extensionManager.handleMetadataUpdate(event, AlfioMetadata.empty());
+        var eventMetadata = extensionManager.handleMetadataUpdate(event, organization, AlfioMetadata.empty());
         if(eventMetadata != null) {
             eventRepository.updateMetadata(eventMetadata, eventId);
         }
@@ -949,7 +952,7 @@ public class EventManager {
     }
 
     private Stream<Event> getActiveEventsStream() {
-         return eventRepository.findAll().stream()
+        return eventRepository.findAll().stream()
             .filter(e -> e.getEnd().truncatedTo(ChronoUnit.DAYS).plusDays(1).isAfter(ZonedDateTime.now(e.getZoneId()).truncatedTo(ChronoUnit.DAYS)));
     }
 
@@ -1069,7 +1072,7 @@ public class EventManager {
     }
 
     public boolean updateMetadata(Event event, AlfioMetadata metadata) {
-        var updatedMetadata = extensionManager.handleMetadataUpdate(event, metadata);
+        var updatedMetadata = extensionManager.handleMetadataUpdate(event, organizationRepository.getById(event.getOrganizationId()), metadata);
         if(updatedMetadata != null) {
             eventRepository.updateMetadata(updatedMetadata, event.getId());
         }

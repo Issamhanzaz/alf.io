@@ -38,7 +38,6 @@ import alfio.model.result.ValidationResult;
 import alfio.model.system.ConfigurationKeys;
 import alfio.repository.*;
 import alfio.util.*;
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -104,15 +103,11 @@ public class EventApiV2Controller {
             .map(e -> {
                 var messageSource = messageSourceManager.getMessageSourceForEvent(e);
                 var formattedDates = Formatters.getFormattedDates(e, messageSource, contentLanguages);
-
-                System.out.println( formattedDates.beginDate);
-
                 return new BasicEventInfo(e.getShortName(), e.getFileBlobId(), e.getDisplayName(), e.getFormat(), e.getLocation(),
                     e.getTimeZone(), DatesWithTimeZoneOffset.fromEvent(e), e.getSameDay(), formattedDates.beginDate, formattedDates.beginTime,
                     formattedDates.endDate, formattedDates.endTime);
             })
             .collect(Collectors.toList());
-        Gson gson = new Gson();
         return new ResponseEntity<>(events, getCorsHeaders(), HttpStatus.OK);
     }
 

@@ -94,6 +94,7 @@ public enum ConfigurationKeys {
     ENABLE_ATTENDEE_AUTOCOMPLETE("Enable attendee autocomplete for 1-ticket reservations (default: true)", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION, EVENT)),
     FORCE_TICKET_OWNER_ASSIGNMENT_AT_RESERVATION("Force ticket owner assignment at reservation time", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION, EVENT)),
     SEND_TICKETS_AUTOMATICALLY("Send tickets to attendees automatically (default: true)", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, EVENT)),
+    SEND_RESERVATION_EMAIL_IF_NECESSARY("Send reservation email only if there is a transaction or if contact person differs from ticket holder (default: true)", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, EVENT)),
     ENABLE_TICKET_TRANSFER("Enable ticket transfer after confirmation (default: true)", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION, EVENT)),
     ALLOW_FREE_TICKETS_CANCELLATION("Allow cancellation for free tickets", false, SettingCategory.RESERVATION_UI, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION, EVENT, TICKET_CATEGORY)),
 
@@ -173,21 +174,14 @@ public enum ConfigurationKeys {
     //
 
     //
-    MOLLIE_CC_ENABLED("Enable Multisafepay", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    MOLLIE_API_KEY("API key for Multisafepay!", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    MOLLIE_CONNECT_CLIENT_ID("Leave empty!", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
-    MOLLIE_CONNECT_REFRESH_TOKEN("Leave empty!", true, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.noneOf(ConfigurationPathLevel.class)),
-    MOLLIE_CONNECT_CLIENT_SECRET("Leave empty!", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
-    MOLLIE_CONNECT_CALLBACK("Leave empty!", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
-    MOLLIE_CONNECT_PROFILE_ID("Leave empty!", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    MOLLIE_CONNECT_LIVE_MODE("Test mode for multisafepay (default false)", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    //
-
-    //
-    MULTISAFEPAY_ENABLED("Enabled", false, SettingCategory.PAYMENT_MULTISAFEPAY, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    MULTISAFEPAY_API_KEY("API key", false, SettingCategory.PAYMENT_MULTISAFEPAY, ComponentType.TEXT, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-    MULTISAFEPAY_TESTMODE("Live mode (default false)", false, SettingCategory.PAYMENT_MULTISAFEPAY, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
-
+    MOLLIE_CC_ENABLED("Enabled", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
+    MOLLIE_API_KEY("API key", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM, ORGANIZATION)),
+    MOLLIE_CONNECT_CLIENT_ID("Mollie Connect Client ID", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
+    MOLLIE_CONNECT_REFRESH_TOKEN("Mollie Connect Refresh Token", true, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.noneOf(ConfigurationPathLevel.class)),
+    MOLLIE_CONNECT_CLIENT_SECRET("Mollie Connect Client Secret", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
+    MOLLIE_CONNECT_CALLBACK("Mollie Connect Callback URL", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM)),
+    MOLLIE_CONNECT_PROFILE_ID("Profile ID", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.TEXT, false, EnumSet.of(SYSTEM, ORGANIZATION)),
+    MOLLIE_CONNECT_LIVE_MODE("Live mode (default false)", false, SettingCategory.PAYMENT_MOLLIE, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
     //
 
     ON_SITE_ENABLED("On site enabled", false, SettingCategory.PAYMENT, ComponentType.BOOLEAN, false, EnumSet.of(SYSTEM, ORGANIZATION)),
@@ -248,7 +242,6 @@ public enum ConfigurationKeys {
         PAYMENT_PAYPAL("PayPal settings"),
         PAYMENT_OFFLINE("Offline payment settings"),
         PAYMENT_MOLLIE("Mollie settings"),
-        PAYMENT_MULTISAFEPAY("Multisafepay settings"),
         INVOICE("Invoice settings"),
         INVOICE_EU("Invoice settings for EU"),
         MAIL("E-Mail settings"),

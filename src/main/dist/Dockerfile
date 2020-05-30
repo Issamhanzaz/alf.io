@@ -32,8 +32,8 @@ RUN mkdir /home/alfio/app
 WORKDIR /home/alfio/app
 
 RUN mkdir logs
-#COPY --chown=alfio WEB-INF WEB-INF
-#COPY --chown=alfio resources resources
+COPY --chown=alfio WEB-INF WEB-INF
+COPY --chown=alfio resources resources
 
 ENV ALFIO_LOG_STDOUT_ONLY=true
 ENV ALFIO_JAVA_OPTS=""
